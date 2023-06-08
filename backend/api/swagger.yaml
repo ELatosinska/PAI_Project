@@ -1,0 +1,483 @@
+---
+swagger: "2.0"
+info:
+  version: "0.1.1"
+  title: "Node Gallery"
+host: "localhost:8080"
+basePath: "/"
+schemes:
+- "http"
+consumes:
+- "application/json"
+- "text/html; charset=utf-8"
+produces:
+- "application/json"
+- "text/html; charset=utf-8"
+paths:
+  /:
+    get:
+      operationId: "homepage"
+      produces:
+      - "text/html; charset=utf-8"
+      parameters: []
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Default"
+    x-swagger-router-controller: "homepage"
+  /libs/{folder}/{name}:
+    get:
+      description: "return selected files"
+      operationId: "fileserve"
+      produces:
+      - "text/html; charset=utf-8"
+      parameters:
+      - name: "folder"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "name"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Default"
+    x-swagger-router-controller: "libs"
+  /images/{name}:
+    get:
+      description: "return selected image file"
+      operationId: "fileserves"
+      parameters:
+      - name: "name"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "string"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Default"
+    x-swagger-router-controller: "image"
+  /image:
+    get:
+      description: "Get list of all images."
+      operationId: "listImages"
+      parameters: []
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/ImageListResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Image"
+    post:
+      description: "Add image to list with upload"
+      operationId: "createImage"
+      consumes:
+      - "multipart/form-data"
+      parameters:
+      - name: "title"
+        in: "formData"
+        description: "Image title."
+        required: false
+        type: "string"
+      - name: "description"
+        in: "formData"
+        description: "Image description."
+        required: false
+        type: "string"
+      - name: "upfile"
+        in: "formData"
+        description: "The file to upload."
+        required: false
+        type: "file"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/ImageResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Default"
+    x-swagger-router-controller: "image"
+  /image/{id}:
+    get:
+      description: "Get image with selected id"
+      operationId: "readImage"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/ImageResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Image"
+    put:
+      description: "Update image with selected id."
+      operationId: "updateImage"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "image"
+        description: "Image properties."
+        required: true
+        schema:
+          $ref: "#/definitions/ImageUpdate"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/ImageResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Image"
+    delete:
+      description: "Delete image with selected id."
+      operationId: "deleteImage"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/OperationStatus"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/OperationStatus"
+      x-swagger-router-controller: "Image"
+    x-swagger-router-controller: "image"
+  /gallery:
+    get:
+      description: "Get list of all galleries."
+      operationId: "listGalleries"
+      parameters: []
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GalleryListResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Gallery"
+    post:
+      description: "Add new gallery"
+      operationId: "createGallery"
+      consumes:
+      - "application/json"
+      - "multipart/form-data"
+      parameters:
+      - name: "title"
+        in: "formData"
+        description: "Gallery title."
+        required: true
+        type: "string"
+      - name: "description"
+        in: "formData"
+        description: "Gallery description."
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GalleryResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Gallery"
+    x-swagger-router-controller: "gallery"
+  /gallery/{id}:
+    get:
+      description: "Get gallery with selected id"
+      operationId: "readGallery"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GalleryResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Gallery"
+    put:
+      description: "Update gallery with selected id."
+      operationId: "updateGallery"
+      consumes:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "gallery"
+        description: "Gallery properties."
+        required: true
+        schema:
+          $ref: "#/definitions/GalleryUpdate"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/ImageResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Gallery"
+    delete:
+      description: "Delete gallery with selected id."
+      operationId: "deleteGallery"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/OperationStatus"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "Gallery"
+    x-swagger-router-controller: "gallery"
+  /swagger:
+    x-swagger-pipe: "swagger_raw"
+definitions:
+  ImageListResponse:
+    properties:
+      images:
+        type: "array"
+        items:
+          $ref: "#/definitions/ImageListResponse_images"
+    example:
+      images:
+      - path: "path"
+        id: "id"
+        title: "title"
+      - path: "path"
+        id: "id"
+        title: "title"
+  ImageResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      title:
+        type: "string"
+      description:
+        type: "string"
+      date:
+        type: "string"
+        format: "date-time"
+      path:
+        type: "string"
+      size:
+        type: "integer"
+    example:
+      date: "2000-01-23T04:56:07.000+00:00"
+      path: "path"
+      size: 0
+      description: "description"
+      id: "id"
+      title: "title"
+  ImageUpdate:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      description:
+        type: "string"
+      date:
+        type: "string"
+        format: "date-time"
+    example:
+      date: "2000-01-23T04:56:07.000+00:00"
+      description: "description"
+      title: "title"
+  OperationStatus:
+    type: "object"
+    properties:
+      deleted:
+        type: "integer"
+      errors:
+        type: "integer"
+      inserted:
+        type: "integer"
+      replaced:
+        type: "integer"
+      skipped:
+        type: "integer"
+      unchanged:
+        type: "integer"
+    example:
+      deleted: 0
+      inserted: 1
+      unchanged: 2
+      replaced: 5
+      errors: 6
+      skipped: 5
+  ErrorResponse:
+    required:
+    - "message"
+    properties:
+      message:
+        type: "string"
+  GalleryListResponse:
+    properties:
+      title:
+        type: "string"
+      description:
+        type: "string"
+      date:
+        type: "string"
+        format: "date-time"
+      visibility:
+        type: "string"
+      images:
+        type: "array"
+        description: "First five images from gallery."
+        items:
+          $ref: "#/definitions/GalleryListResponse_images"
+    example:
+      date: "2000-01-23T04:56:07.000+00:00"
+      images:
+      - date: "2000-01-23T04:56:07.000+00:00"
+        path: "path"
+        description: "description"
+        id: "id"
+        title: "title"
+      - date: "2000-01-23T04:56:07.000+00:00"
+        path: "path"
+        description: "description"
+        id: "id"
+        title: "title"
+      visibility: "visibility"
+      description: "description"
+      title: "title"
+  GalleryResponse:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      title:
+        type: "string"
+      description:
+        type: "string"
+      date:
+        type: "string"
+        format: "date-time"
+      visibility:
+        type: "string"
+    example:
+      date: "2000-01-23T04:56:07.000+00:00"
+      visibility: "visibility"
+      description: "description"
+      id: "id"
+      title: "title"
+  GalleryUpdate:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      description:
+        type: "string"
+      date:
+        type: "string"
+        format: "date-time"
+      visibility:
+        type: "string"
+    example:
+      date: "2000-01-23T04:56:07.000+00:00"
+      visibility: "visibility"
+      description: "description"
+      title: "title"
+  ImageListResponse_images:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      title:
+        type: "string"
+      path:
+        type: "string"
+    example:
+      path: "path"
+      id: "id"
+      title: "title"
+  GalleryListResponse_images:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      title:
+        type: "string"
+      description:
+        type: "string"
+      date:
+        type: "string"
+        format: "date-time"
+      path:
+        type: "string"
+    example:
+      date: "2000-01-23T04:56:07.000+00:00"
+      path: "path"
+      description: "description"
+      id: "id"
+      title: "title"
