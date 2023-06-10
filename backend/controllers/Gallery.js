@@ -8,6 +8,7 @@ var Gallery = require('../service/GalleryService');
 module.exports.listGalleries = function listGalleries(req, res, next) {
   Gallery.listGalleries()
     .then(function(result) {
+      console.log(result.params)
       utils.writeJson(res, result);
     })
     .catch(function(result) {

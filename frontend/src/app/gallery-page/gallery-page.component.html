@@ -1,0 +1,14 @@
+<mat-grid-list cols="3">
+  <mat-grid-tile *ngFor='let gallery of galleries'>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          {{gallery.title}}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content">
+        <div>Działa</div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

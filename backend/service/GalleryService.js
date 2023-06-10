@@ -3,7 +3,6 @@
 const thinkagain = require('thinkagain')();
 var r = thinkagain.r;
 
-
 exports.listGalleries = function() {
 
   return r.db("Galleries").table("Gallery").run()

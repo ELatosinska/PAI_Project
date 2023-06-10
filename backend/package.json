@@ -14,6 +14,7 @@
   "private": true,
   "dependencies": {
     "connect": "^3.2.0",
+    "formidable": "^2.1.1",
     "js-yaml": "^3.3.0",
     "swagger-tools": "0.10.1",
     "thinkagain": "^0.1.6"

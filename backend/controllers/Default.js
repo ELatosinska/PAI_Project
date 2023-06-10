@@ -4,7 +4,7 @@ var utils = require('../utils/writer.js');
 var Default = require('../service/DefaultService');
 const thinkagain = require('thinkagain')();
 var r = thinkagain.r;
-
+var formidable = require('formidable')
 
 module.exports.fileserve = function fileserve(req, res, next) {
   var folder = req.swagger.params['folder'].value;
@@ -38,3 +38,15 @@ module.exports.homepage = function homepage(req, res, next) {
       utils.writeJson(res, response);
     });
 };
+
+module.exports.upload = function upload(req, res, next) {
+  let form = new formidable.IncomingForm()
+  form.parse(req, function(err, fields, files) {
+    let orginalpath = files.filetoupload.path
+    let targetpath = '../images/' + files.filetoupload.name
+    fs.rename(orginalpath, targetpath, function(err) {
+      if (err) throw err
+      res.end()
+    })
+  })
+}

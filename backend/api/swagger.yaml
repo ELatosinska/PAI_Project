@@ -1,9 +1,8 @@
----
 swagger: "2.0"
 info:
   version: "0.1.1"
   title: "Node Gallery"
-host: "localhost:8080"
+host: "localhost:3001"
 basePath: "/"
 schemes:
 - "http"
@@ -191,6 +190,20 @@ paths:
       x-swagger-router-controller: "Image"
     x-swagger-router-controller: "image"
   /gallery:
+    options: 
+      description: "return possible methods"
+      operationId: "optionsGallery"
+      parameters: []
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/OptionsGalleryResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
     get:
       description: "Get list of all galleries."
       operationId: "listGalleries"
@@ -373,6 +386,10 @@ definitions:
       replaced: 5
       errors: 6
       skipped: 5
+  OptionsGalleryResponse:
+    properties:
+      headers:
+        Access-Control-Allow-Origin: "*"
   ErrorResponse:
     required:
     - "message"

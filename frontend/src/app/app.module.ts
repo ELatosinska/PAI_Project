@@ -11,7 +11,9 @@ import { UsersComponent } from './users/users.component';
 import { HomePageComponent } from './home-page/home-page.component';
 
 import { MaterialModule } from './material/material.module';
-import { DashboardComponent } from './material/dashboard/dashboard.component';
+
+import { ImagePageComponent } from './image-page/image-page.component';
+import { GalleryPageComponent } from './gallery-page/gallery-page.component';
 
 
 
@@ -20,7 +22,8 @@ import { DashboardComponent } from './material/dashboard/dashboard.component';
     AppComponent,
     UsersComponent,
     HomePageComponent,
-    DashboardComponent
+    ImagePageComponent,
+    GalleryPageComponent
   ],
   imports: [
     BrowserModule,
